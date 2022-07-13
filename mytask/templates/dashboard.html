@@ -1,0 +1,76 @@
+{%  extends 'main.html' %}
+
+{% block content %}
+
+{%  include 'status.html' %}
+
+<br>
+
+<div class="row">
+	<div class="col-md-5">
+		<h5>CUSTOMERS:</h5>
+		<hr>
+		<div class="card card-body">
+			<a class="btn btn-primary  btn-sm btn-block" href="">Create Customer</a>
+			<table class="table table-sm">
+				<tr>
+					
+					<th>Customer</th>
+					<th>Phone</th>
+					<th>View</th>
+					
+				</tr>
+				{% for custom in cust %}
+				<tr>
+					<td>{{custom.name}}</td>
+					<td>{{custom.phone}}</td>
+					<td><a class="btn btn-primary" href={% url 'customer' custom.id %}>View</a></td>
+				</tr>
+				{% endfor%}
+				
+
+			</table>
+		</div>
+	</div>
+
+	<div class="col-md-7">
+		<h5>LAST 5 ORDERS</h5>
+		<hr>
+		<div class="card card-body">
+			{% comment %} <a class="btn btn-primary  btn-sm btn-block" href={% url 'create'%}>Create Order</a> {% endcomment %}
+			<table class="table table-sm">
+				
+				<tr>
+					<th>Product</th>
+					<th>Tags</th>
+					<th>Date Orderd</th>
+					<th>Time Orderd</th>
+
+					<th>Status</th>
+					<th>Update</th>
+					<th>Remove</th>
+					
+					
+				</tr>
+				{% for order in orders %}
+				<tr>
+					<td>{{order.product}}</td>
+					<td>{{order.get_tags}}</td>
+					<td>{{order.date_created.date}}</td>
+					<td>{{order.date_created.time}}</td>
+					<td>{{order.status}}</td>
+					
+					<td><a class="btn btn-info" href={% url 'updateorder' order.id%}>Update</a></td>
+					<td><a class="btn btn-danger" href={% url 'deletedata' order.id%}>Delete</a></td>	
+				</tr>
+				{% endfor%}
+				
+				
+				
+			</table>
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}
