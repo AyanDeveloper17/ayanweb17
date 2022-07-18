@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
     name=models.CharField(max_length=100)
     phone=models.CharField(max_length=100)
     email=models.EmailField(max_length=100)
@@ -24,7 +26,7 @@ class Product(models.Model):
         ('Indoor','Indoor'),
         ('Out door','Out door')
     )
-    product_name=models.CharField(max_length=100)
+    product_name=models.CharField(max_length=100,unique=True)
     product_price=models.FloatField()
     product_category=models.CharField(max_length=100,choices=CATEGORY)
     product_description=models.TextField()
@@ -39,11 +41,7 @@ class Product(models.Model):
 
 
 class Order(models.Model):
-    # TAGS = (
-    #     ('Sports','Sports'),
-    #     ('Summer','Summer'),
-    #     ('Health','Health')
-    # )
+    
     STATUS = (
         ('Pending','Pending'),('Out for delivery','Out for delivery'),
         ('Delivered','Delivered')
@@ -52,11 +50,12 @@ class Order(models.Model):
     product = models.ForeignKey(Product,on_delete=models.PROTECT,null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=100,choices=STATUS)
+    product_quantity = models.IntegerField(null=True)
    
 
     def __str__(self):
         return str(self.product)
-
+ 
     def get_tags(self):
         return ','.join([i.name for i in self.product.tag.all()])
 

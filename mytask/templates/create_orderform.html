@@ -9,7 +9,11 @@
  
             <form class='fm' method='POST' required>
                 {% csrf_token %}
-                {{form.as_p}}
+                {{ formset.management_form}}
+                {% for form in formset%}
+                {{form}}
+                <hr><br>
+                {% endfor%}
 
                 <button class="btn btn-primary" type='submit'>Submit</button>
             </form>
